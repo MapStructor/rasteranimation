@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PMTiles + Canvas Coloring Demo</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link href="https://unpkg.com/maplibre-gl@3.2.1/dist/maplibre-gl.css" rel="stylesheet">
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    #canvas { position: absolute; top: 0; left: 0; z-index: 10; pointer-events: none; }
+    #sliderContainer {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 11;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <canvas id="canvas"></canvas>
+  <div id="sliderContainer">
+    <input type="range" id="colorSlider" min="0" max="254" value="254" />
+    <label>Color Threshold</label>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@3.2.1/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@3.0.3/dist/pmtiles.js"></script>
+  <script>
+    let protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol("pmtiles", protocol.tile);
+
+    const map = new maplibregl.Map({
+      container: "map",
+      style: {
+        version: 8,
+        sources: {
+          "basemap": {
+            type: "raster",
+            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+            tileSize: 256
+          }
+        },
+        layers: [
+          { id: "basemap", type: "raster", source: "basemap" }
+        ]
+      },
+      center: [-3.7038, 40.4168], // Madrid
+      zoom: 11
+    });
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const slider = document.getElementById("colorSlider");
+
+    const colorRamp = [
+      { value: 0, color: [43, 131, 186] },
+      { value: 63.75, color: [171, 221, 164] },
+      { value: 127.5, color: [255, 255, 191] },
+      { value: 191.25, color: [253, 174, 97] },
+      { value: 254, color: [215, 25, 28] }
+    ];
+
+    function grayscaleToColor(grayscale) {
+      let startIndex = 0;
+      for (let i = 1; i < colorRamp.length; i++) {
+        if (grayscale < colorRamp[i].value) {
+          startIndex = i - 1;
+          break;
+        }
+      }
+      const start = colorRamp[startIndex];
+      const end = colorRamp[startIndex + 1];
+      const ratio = (grayscale - start.value) / (end.value - start.value);
+      return start.color.map((c, i) => Math.round(c + (end.color[i] - c) * ratio));
+    }
+
+    function drawColoredTile(imageBitmap, threshold) {
+      canvas.width = imageBitmap.width;
+      canvas.height = imageBitmap.height;
+      ctx.drawImage(imageBitmap, 0, 0);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+
+      for (let i = 0; i < data.length; i += 4) {
+        const grayscale = data[i]; // Red channel (gray)
+        if (grayscale <= threshold) {
+          const [r, g, b] = grayscaleToColor(grayscale);
+          data[i] = r;
+          data[i + 1] = g;
+          data[i + 2] = b;
+          data[i + 3] = 255;
+        } else {
+          data[i + 3] = 0; // transparent
+        }
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+    }
+
+    map.on("load", () => {
+      const tileUrl = "https://protomaps.github.io/PMTiles-examples/raster/madrid-gray.pmtiles";
+      const tile = new pmtiles.PMTiles(tileUrl);
+
+      tile.getZxy(11, 1009, 818).then(tileData => {
+        if (!tileData) return;
+        const blob = new Blob([tileData], { type: "image/png" });
+        createImageBitmap(blob).then(bitmap => {
+          drawColoredTile(bitmap, parseInt(slider.value));
+          slider.addEventListener("input", () => {
+            drawColoredTile(bitmap, parseInt(slider.value));
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

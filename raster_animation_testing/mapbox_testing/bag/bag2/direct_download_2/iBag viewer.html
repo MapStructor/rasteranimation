@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://bag.edugis.nl/index2.html -->
+<html data-redeviation-bs-uid="7xszv1x3v4p"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>iBag viewer</title>
+
+	
+ <script type="text/javascript" async="" src="./iBag viewer_files/ga.js.download"></script><script src="./iBag viewer_files/jquery.min.js.download"></script>
+	<script src="./iBag viewer_files/jquery-ui-1.8.17.custom.min.js.download"></script>
+
+	<link rel="stylesheet" href="./iBag viewer_files/leaflet.css">
+	<link rel="stylesheet" href="./iBag viewer_files/jquery-ui-1.8.17.custom.css">
+	<script src="./iBag viewer_files/leaflet.js.download"></script>
+
+	<!--[if lte IE 8]><link rel="stylesheet" href="dist/leaflet.ie.css" /><![endif]-->
+	<script>
+	$(document).ready(function () {
+if(jQuery.browser.msie) alert('Sorry, this application uses state of the art HTML5 techniques which are not (well) supported by Internet Explorer.\nUse Google Chrome or Mozilla Firefox to experience the full power of HTML5 and this application');
+		$( "#slider" ).slider({min:1600,max:2012,
+		range: true,
+		values: [1960,1980],
+			slide: function( event, ui ) {
+				$( "#year" ).val( ui.values[0] );
+				$( "#year2" ).val( ui.values[1] );
+				changeYear(ui.values);
+			}
+
+		});
+		$( "#slider2" ).slider({min:0,max:1,
+		value: 0.4,
+		step: 0.1,
+			slide: function( event, ui ) {
+				setOpacity(ui.value);
+			}
+
+		});
+
+		$( "#year" ).val( $( "#slider" ).slider( "values", 0 ) );
+				$( "#year2" ).val( $( "#slider" ).slider( "values", 1 ) );
+		$('.searchbutton').click(function(){
+			geocode();
+			
+			return false;
+		});
+		$('#searchform').submit(function(){
+			geocode();
+			
+			return false;
+		});
+	});
+	</script>
+<style>
+#sidepanel {
+	display: block;
+	position: absolute;
+	float: right;
+	width: 250px;
+	height: 100%;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	background: #000;
+	opacity: 0.8;
+	font-size: 16px;
+	color:#eeeeec; 
+	z-index:10000;
+	font-family: "Gill Sans Extrabold", Helvetica, sans-serif;
+}
+#slider, #slider2{
+ width: 200px;
+}
+#year, #year2 {
+	font-size: 20px;
+	background: none;
+	border:0; 
+}
+.y1600 {
+	color: #888a85;
+}
+.y1700 {
+	color: #5c3566;
+}
+.y1800 {
+	color: #75507b;
+}
+.y1850 {
+	color: #a40000;
+}
+.y1900 {
+	color: #cc0000;
+}
+.y1950 {
+	color: #f57900;
+}
+.y2000 {
+	color: #edd400;
+}
+h1 {
+	font-size: 20px;
+}
+.leaflet-container {
+	background: #eeeeec !important;
+}
+.info {
+	font-size: 12px;
+	line-height: 160%;
+}
+.info a {
+	text-decoration: none;
+	color: #babdb6;
+}
+.info a:visited {
+	color: #888a85;
+}
+#content {
+	padding: 10px;
+}
+</style>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-28801666-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body>
+	<div id="map" style="width: 100%; height: 100%; display:block;left: 0px; top: 0px; right: 0px; bottom: 0px; position: absolute;" class=" leaflet-container leaflet-fade-anim"><div class="leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-tile-pane"><div class="leaflet-layer" style="opacity: 0.5;"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1268px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4207/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1268px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4207/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1012px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4206/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1524px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4208/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1012px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4206/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1524px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4208/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1268px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4207/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1268px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4207/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1012px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4206/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1524px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4208/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1012px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4206/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1524px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4208/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(756px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4205/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1780px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4209/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(756px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4205/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1780px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4209/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1268px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4207/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(756px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4205/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1780px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4209/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(756px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4205/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1780px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4209/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1268px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4207/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1012px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4206/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1524px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4208/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1012px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4206/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1524px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4208/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(500px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4204/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2036px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4210/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(500px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4204/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2036px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4210/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(756px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4205/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1780px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4209/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(756px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4205/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(1780px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4209/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(500px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4204/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2036px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4210/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(500px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4204/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2036px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4210/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(500px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4204/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2036px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4210/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(500px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4204/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2036px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4210/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(244px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4203/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2292px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4211/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(244px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4203/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2292px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4211/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(244px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4203/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2292px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4211/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(244px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4203/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2292px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4211/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(244px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4203/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2292px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4211/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(244px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4203/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2292px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4211/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(-12px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4202/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2548px, 508px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4212/2692.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(-12px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4202/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2548px, 764px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4212/2693.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(-12px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4202/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2548px, 252px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4212/2691.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(-12px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4202/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2548px, 1020px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4212/2694.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(-12px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4202/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2548px, -4px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://c.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4212/2690.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(-12px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://a.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4202/2695.png"><img class="leaflet-tile" style="width: 256px; height: 256px; transform: translate3d(2548px, 1276px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px) translate(0px, 0px);" src="http://b.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/13/4212/2695.png"></div><div class="leaflet-layer"><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1268px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1268px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1012px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1524px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1012px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1524px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1268px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1268px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1012px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1524px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1012px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1524px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(756px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1780px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(756px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1780px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1268px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(756px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1780px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(756px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1780px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1268px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1012px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1524px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1012px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1524px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(500px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2036px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(500px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2036px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(756px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1780px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(756px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(1780px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(500px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2036px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(500px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2036px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(500px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2036px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(500px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2036px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(244px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2292px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(244px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2292px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(244px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2292px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(244px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2292px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(244px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2292px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(244px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2292px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(-12px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2548px, 508px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(-12px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2548px, 764px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(-12px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2548px, 252px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(-12px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2548px, 1020px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(-12px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2548px, -4px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(-12px, 1276px, 0px);"></canvas><canvas class="leaflet-tile leaflet-tile-loaded" width="256" height="256" style="transform: translate3d(2548px, 1276px, 0px);"></canvas></div></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-control"><a href="http://bag.edugis.nl/index2.html#" title="Zoom in" class="leaflet-control-zoom-in"></a><a href="http://bag.edugis.nl/index2.html#" title="Zoom out" class="leaflet-control-zoom-out"></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control">Powered by <a href="http://leaflet.cloudmade.com/">Leaflet</a> — Map data © 2011 OpenStreetMap contributors, Imagery © 2011 CloudMade, Map data © bag.vrom.nl</div></div></div></div>
+	<div id="sidepanel">
+	<div id="content">
+<h1>	Interactive BAG viewer</h1>
+	<p>
+	Years: <input type="text" id="year" size="3" class="y1600" value=""> to  <input type="text" id="year2" size="3" class="y2000" value=""> 
+	</p>
+	<div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><div class="ui-slider-range ui-widget-header" style="left: 0%; width: 100%;"></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="http://bag.edugis.nl/index2.html#" style="left: 0%;"></a><a class="ui-slider-handle ui-state-default ui-corner-all" href="http://bag.edugis.nl/index2.html#" style="left: 100%;"></a></div>
+	<p>
+	Set background opacity
+	</p><div id="slider2" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><a class="ui-slider-handle ui-state-default ui-corner-all" href="http://bag.edugis.nl/index2.html#" style="left: 50%;"></a></div>
+	<p></p>
+	<div class="info">
+	<p>
+	This viewer is built by <a href="http://research.geodan.nl/">Geodan Research</a>. It shows the date of construction of buildings in 
+	the Netherlands, using the <a href="http://bag.vrom.nl/">BAG data</a>.</p>
+	You can use the first slider to adjust the year to view the buildings which are build before that year. <br>
+	The second slider will adjust the opacity of the background map.
+	<p>
+	The BAG data is served by <a href="http://www.edugis.nl/">EduGIS</a><br>
+	The background map is <a href="http://openstreetmap.org/">OpenStreetMap</a> data styled and served by <a href="http://www.cloudmade.com/">Cloudmade</a>
+    </p>
+	<p>
+	For more info: <br>
+	twitter: @stvno <br>
+	mail: <a href="mailto:steven.ottens@geodan.nl">steven.ottens@geodan.nl</a>
+	</p>
+	<p>
+	</p><form id="searchform"><input type="text" class="searchstring" size="18" value="Amsterdam" title="Search for a location">
+    <input type="submit" class="searchbutton" value="search" title="Search for a location"></form>
+	<p></p>
+<p>
+	Also the data is not always accurate, it does typically have the wrong construction years for buildings older than 1850. If the year is properly set to unknown it will show up on the map as a black building.<br>
+
+</p>	
+	</div>
+	<a href="http://www.geodan.nl/"><img src="./iBag viewer_files/geodan.gif" style="position: absolute; bottom: 10px; right: 0px;"></a>
+	</div>
+	</div>
+
+<script>
+		var map = new L.Map('map');	
+		//Background map
+		var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/e4aa5e4303c8433a836fc29ad3bdb248/998/256/{z}/{x}/{y}.png';
+		cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+		cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 16, attribution: cloudmadeAttribution, opacity:0.4});
+		map.setView(new L.LatLng(52.36, 4.88), 13).addLayer(cloudmade);
+/*		var bagurl = 'http://t{s}.edugis.nl/tiles/tilecache.py/ibag/{z}/{x}/{y}.png';
+			bagatttr = 'Map data &copy; Gemeenten';
+			bag = new L.TileLayer(bagurl, {subdomains:[1,2,3,4], maxZoom: 18, attribution: bagatttr,scheme:'tms'});
+			map.addLayer(bag);*/
+
+		bagatttr = 'Map data &copy; bag.vrom.nl';	
+
+		//Create a canvas layer on which to draw the BAG data
+		var canvasTiles = new L.TileLayer.Canvas( { minZoom: 9, maxZoom: 16, attribution: bagatttr,scheme:'tms'});
+
+/*
+On initialising a canvas tile, use the drawTile function to loop through each pixel and assign color and alpha values based on the current year and the r-value of the data.
+*/     
+getJaar = function(jaar) {
+	//We default to 2012
+	if (jaar == 'NaN') jaar = 2012;
+	
+	//this is the value of year as encoded in the pngs
+	var jr = 0;
+	if (jaar < 1600) {
+		jr =1;
+	}
+	else if (jaar >=1600 && jaar <1700) {
+		jr =10;
+	}
+	else if (jaar >=1700 && jaar <1800) {
+		jr = 20;
+	}
+	else if (jaar >=1800 && jaar <1850) {
+		jr = 30;
+	}
+	if(jaar >= 1850) {
+		jr = 50 + jaar -1850;
+	}
+	return jr;
+};
+canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
+
+
+	
+    var ctx = canvas.getContext('2d');
+	var img = new Image();
+	//The tiles need to come from a local source to prevent cross-origin problems
+	var url = '/tiles/tilecache.py/ibag/'+zoom+'/'+tilePoint.x+'/'+tilePoint.y+'.png';
+//  var url = "tile.png";
+	//On the img.onload store the original data of the png to the canvas element and loop through all the pixels.
+	img.onload = function(){  
+		var height = 256;
+		var width = 256;
+		ctx.drawImage(img,0,0);		
+		imageData = ctx.getImageData(0, 0, 256, 256);
+		$(canvas).data('iData',imageData);
+		//color the pixels of the canvas
+		colorPixels(canvas);
+    }
+	img.src= url;
+}
+map.addLayer(canvasTiles);
+
+//function to color the pixels of the canvas based on the pixel value and the current selected year
+colorPixels = function(canvas) {
+  var j1 = parseInt($( "#year" ).val());
+  var j2 = parseInt($( "#year2" ).val());
+	var jr1 = getJaar(j1)+1;
+	var jr2 = getJaar(j2)+1;
+	var ctx = canvas.getContext('2d');
+		var imageData = ctx.createImageData(256,256);
+		if($(canvas).data('iData')) {
+      		oImageData = $(canvas).data('iData');
+      		for (y = 0; y < 256; y++) {		
+     			inpos = y * 256 * 4; // *4 for 4 ints per pixel
+     			outpos =inpos ;
+     			for (x = 0; x < 256; x++) {
+      				var r = oImageData.data[inpos++]; // less red
+      				var g = oImageData.data[inpos++]; // less green
+      				var b = oImageData.data[inpos++]; // MORE BLUE
+      				var a = oImageData.data[inpos++];     // same alpha
+					var rn =r; //store the original red value
+				
+				//The pixel is newer than the year2 or older than year 1 so don't show it
+				//also the nodata pixels should stay invisible
+				if(r>jr2 || (r<jr1 && jr1!=1) ||r == 0) a =0;
+				
+				//the pixel is older than the year so show it and color it depending on the r value
+				else { a =255;  
+					if(r <=1) {
+						rn =0;
+						b =0;
+						g =0;
+					}// before 1600
+					else if (r > 1 && r <=10) {
+						rn = 136;
+						g = 138;
+						b = 133;
+					}//1600-1700
+					else if (r > 10 && r <=20) {
+						rn = 92;
+						g = 53;
+						b = 102;
+					}//1700-1800
+					else if (r > 20 && r <=30){
+						rn = 117;
+						g = 80;
+						b = 123;
+					}//1800-1850
+					else if (r > 30 && r <=100) {
+						rn = 150;
+						g = 0;
+						b = 0;
+					}//1850-1900
+					else if (r > 100 && r <=150) {
+						rn = 255;
+						g = 0;
+						b = 0;
+					}//1900-1950
+					else if (r > 150 && r <=200) {
+						rn = 245;
+						g = 121;
+						b = 0;
+					}//1950-2000
+					else if (r > 200 && r <=250 ){
+						rn = 237;
+						g =212;
+						b = 0;
+					}//2000-2050						  						
+				}
+				imageData.data[outpos++] = rn;
+				imageData.data[outpos++] = g;
+				imageData.data[outpos++] = b;
+				imageData.data[outpos++] = a;
+     			}
+      		}
+    		}
+		ctx.putImageData(imageData, 0, 0);
+}
+
+
+changeYear = function(jaren) {
+  var bjaar =  jaren[0];
+    var ejaar =  jaren[1];
+	//update the color of the year
+    var sv = $( "#year" );
+    var ej = $( "#year2" );
+    if(bjaar<1700) {
+    sv.removeClass('y1700').removeClass('y1800').removeClass('y1850').removeClass('y1900').removeClass('y1950').removeClass('y2000').addClass('y1600');
+    
+    }
+    if(bjaar>=1700 && bjaar< 1800) {
+    sv.removeClass('y1600').removeClass('y1800').removeClass('y1850').removeClass('y1900').removeClass('y1950').removeClass('y2000').addClass('y1700');
+        }
+    if(bjaar>=1800 && bjaar< 1850) {
+        sv.removeClass('y1700').removeClass('y1600').removeClass('y1850').removeClass('y1900').removeClass('y1950').removeClass('y2000').addClass('y1800');
+    }
+    if(bjaar>=1850 && bjaar< 1900) {
+        sv.removeClass('y1700').removeClass('y1800').removeClass('y1600').removeClass('y1900').removeClass('y1950').removeClass('y2000').addClass('y1850');
+    }
+    if(bjaar>=1900 && bjaar< 1950) {
+        sv.removeClass('y1700').removeClass('y1800').removeClass('y1850').removeClass('y1600').removeClass('y1950').removeClass('y2000').addClass('y1900');
+    }
+    if(bjaar>=1950 && bjaar< 2000) {
+        sv.removeClass('y1700').removeClass('y1800').removeClass('y1850').removeClass('y1900').removeClass('y1600').removeClass('y2000').addClass('y1950');
+    }
+    if(bjaar>=2000) {
+        sv.removeClass('y1700').removeClass('y1800').removeClass('y1850').removeClass('y1900').removeClass('y1950').removeClass('y1600').addClass('y2000');
+    }
+     if(ejaar<1700) {
+    ej.removeClass('y1700').removeClass('y1800').removeClass('y1850').removeClass('y1900').removeClass('y1950').removeClass('y2000').addClass('y1600');
+    
+    }
+    if(ejaar>=1700 && ejaar< 1800) {
+    ej.removeClass('y1600').removeClass('y1800').removeClass('y1850').removeClass('y1900').removeClass('y1950').removeClass('y2000').addClass('y1700');
+        }
+    if(ejaar>=1800 && ejaar< 1850) {
+        ej.removeClass('y1700').removeClass('y1600').removeClass('y1850').removeClass('y1900').removeClass('y1950').removeClass('y2000').addClass('y1800');
+    }
+    if(ejaar>=1850 && ejaar< 1900) {
+        ej.removeClass('y1700').removeClass('y1800').removeClass('y1600').removeClass('y1900').removeClass('y1950').removeClass('y2000').addClass('y1850');
+    }
+    if(ejaar>=1900 && ejaar< 1950) {
+        ej.removeClass('y1700').removeClass('y1800').removeClass('y1850').removeClass('y1600').removeClass('y1950').removeClass('y2000').addClass('y1900');
+    }
+    if(ejaar>=1950 && ejaar< 2000) {
+        ej.removeClass('y1700').removeClass('y1800').removeClass('y1850').removeClass('y1900').removeClass('y1600').removeClass('y2000').addClass('y1950');
+    }
+    if(ejaar>=2000) {
+        ej.removeClass('y1700').removeClass('y1800').removeClass('y1850').removeClass('y1900').removeClass('y1950').removeClass('y1600').addClass('y2000');
+    }
+	var canvi = $("canvas");
+	for (i = 0; i < canvi.length; i++) {
+		var canvas = canvi[i];
+		colorPixels(canvas);
+	}
+}
+
+//set the opacity of the background map
+setOpacity = function(opac) {
+  cloudmade.setOpacity(opac);
+}
+
+geocode = function() {
+	var url = 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address='  + $('.searchstring').val().replace(' ','+');
+			url = '/cgi-bin/proxy.cgi?url='+encodeURIComponent(url);
+			$.getJSON(url, 
+			function(data) {
+				if(data.status == 'OK') {
+					var bounds = data.results[0].geometry.bounds;
+					map.setView(new L.LatLng(data.results[0].geometry.location.lat,data.results[0].geometry.location.lng), 13)					
+				}
+			});
+}
+
+	</script>
+
+
+
+<div id="quick-start-container"></div></body></html>

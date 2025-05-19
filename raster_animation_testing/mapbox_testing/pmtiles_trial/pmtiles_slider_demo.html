@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PMTiles + MapLibre + Color Slider Demo</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link href="https://unpkg.com/maplibre-gl@3.2.1/dist/maplibre-gl.css" rel="stylesheet">
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    #sliderContainer {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="sliderContainer">
+    <input type="range" id="colorSlider" min="0" max="254" value="254" />
+    <label>Visibility Threshold</label>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@3.2.1/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@3.0.3/dist/pmtiles.js"></script>
+  <script>
+    // Register PMTiles protocol
+    let protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol("pmtiles", protocol.tile);
+
+    const map = new maplibregl.Map({
+      container: "map",
+      style: {
+        version: 8,
+        sources: {
+          "basemap": {
+            type: "raster",
+            tiles: [
+              "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+            ],
+            tileSize: 256,
+          },
+          "raster-gray": {
+            type: "raster",
+            url: "pmtiles://https://protomaps.github.io/PMTiles-examples/raster/madrid-gray.pmtiles",
+            tileSize: 256
+          }
+        },
+        layers: [
+          { id: "basemap", type: "raster", source: "basemap" },
+          { id: "raster-gray", type: "raster", source: "raster-gray", paint: { "raster-opacity": 1.0 } }
+        ]
+      },
+      center: [-3.7038, 40.4168], // Madrid
+      zoom: 11
+    });
+
+    const slider = document.getElementById("colorSlider");
+    slider.addEventListener("input", function() {
+      const threshold = parseInt(slider.value);
+
+      // Simple simulation: adjust raster-opacity based on threshold (for demo only)
+      const opacity = (255 - threshold) / 255;
+      map.setPaintProperty("raster-gray", "raster-opacity", opacity);
+    });
+  </script>
+</body>
+</html>
