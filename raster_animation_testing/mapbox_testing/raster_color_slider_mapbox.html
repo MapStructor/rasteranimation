@@ -30,18 +30,18 @@
     <input type="range" id="visibilitySlider" min="0" max="255" value="255">
 </div>
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoibWFwbnkiLCJhIjoiY2xtMG93amk4MnBrZTNnczUzY2VvYjg0ciJ9.MDMHYBlVbG14TJD120t6NQ';
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFwbnkiLCJhIjoiY200OW03ZGh2MGJyMzJrcTEydW4wMGh2eSJ9.eJnHIk7wriv-Hp02T7mT3g';
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v12',
-        center: [-122.619991, 45.536023],
-        zoom: 10.5
+        center: [-73.9998, 40.6662],
+        zoom: 11
     });
 
     map.on('load', () => {
         map.addSource('portland', {
             'type': 'raster',
-            'url': 'mapbox://examples.32xkp0wd'
+            'url': 'mapbox://mapny.99sijsdu'
         });
 
         map.addLayer({
